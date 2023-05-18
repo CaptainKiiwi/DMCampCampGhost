@@ -1,0 +1,430 @@
+﻿//---------------------------AI Talk--------------------------
+//Alright, this is it! The bread and butter of your ghost. This is where all their random conversations are stored.
+
+
+//--AiTalk
+OnAiTalk
+{
+	if RAND(100) < communicateratio
+	{
+		StartCommunicate
+	}
+	else
+	{
+		if mikireflag == 0
+		{
+			if CHAIN.IDName == "" {
+				lastTalk = RandomTalk
+			}
+			else {
+				lastTalk = ChainTalk
+			}
+			lastTalk
+		}
+		else
+		{ 
+		MikireTalk
+		}
+	}
+}
+
+
+//--RandomTalk 
+ //Alright, here we go! This is where ALL your ghost's random dialogue will go! These are the conversations that they'll have with you or each other that pop up depending on the talk rate defined in menu.dic (or if you ignored that, set in bootend.dic in the first boot, which would be every five minutes).
+
+// \![sound,play,file,option] -> regular play. options include: --volume=0~100
+// \![sound,loop,file] -> loops track. (needs to be stopped with stop)
+// \![sound,wait] -> everything after waits until the playback ends
+// \![sound,pause,file] -> pauses playback. omit file name to pause all sounds.
+// \![sound,resume,file] -> resumes playback; same rules as pause
+// \![sound,stop,file] -> stops playback entirely. same rules as pause
+
+// \_a[[http://www.website.com/](put text here)\_a can link a website in dialogue.
+// \0\s[0]\1\s[0]\_s(put dialogue here)\_s has characters say dialogue at the same time.
+// \_b[name.png,50,50,centerxy] displays an image in the balloon.
+// \![set,balloontimeout,-1] makes it so the balloon doesn't disappear / time out.
+// \![set,autoscroll,disable] exactly as it says, disables autoscroll.
+// \![set,balloonwait,0.1] controls the speed of the text. default set at 1, 0.1 is faster, 2+ are slower
+// \c[char,6] clears the previous 6 characters
+
+// \n\n[half]
+
+// %(user) %(they) %(them) %(their)
+
+//Here are some examples of these envelopes in use.
+//"%(they) left that there."
+//"%(their) work is really cool."
+//"I'll ask %(them) later."
+
+RandomTalk : nonoverlap_pool
+{
+	"\1\s[10]\i[9]\i[12]We've been here for ages!\w8\0\s[1]It hasn't even been that long,\w4 Max.\w8\e"
+	
+	
+	{
+	_campstuff = camperbibble
+	_camper = _campstuff[0]
+	_camperdesc = _campstuff[1]
+	_campersolution = _campstuff[2]
+	
+	
+	"\0\s[0]\i[2]I wonder how %(_camper) is doing...\w8 \1\s[10]\i[27]Probably %(_camperdesc)\w8\0\s[0]\i[1]\i[12]\i[25]\n\n[half]Well I hope %(_campersolution)\w8\e"
+	}
+	
+	
+	"\1\s[10]\i[1]\i[14]How long do you think Gwen can take care of things by herself while you're gone?\w8\0\s[4]I'm confident in her!\w8 She's my CBFL!\w8\e"
+	
+	"\0\s[0]\i[25]\i[2]I've been thinking about getting a new camp mascot...\w8\1\s[10]\i[7]GOOD.\w8\s[11] That platypus is a menace!\w8\e"
+	
+	"\0\s[0]\i[14]\i[1]Max,\w4 what is one thing you like about Camp Campbell?\w8\1\s[10]\i[8]Nothing.\w8\0\s[0]\i[1]\i[12]\i[25]\n\n[half]Come on,\w4 please?\w8\1\s[16]\n\n[half]Well,\w4 at least it's not the Woodscouts.\w8\0\s[4]\n\n[half]I'll take it!\w8\e"
+	
+	"\1\s[10]\i[8]Ugh.\w8\0\s[0]\i[11]\i[25]\i[1]What's wrong,\w4 Max?\w8\1\s[16]\n\n[half]Nothing.\w8 Just tired from fighting off that Woodscout raid last night.\w8\0\s[0]\i[1]\i[12]\i[25]\n\n[half]Aww...\w8\e"
+	
+	"\1\s[10]\i[8]I still can't believe you listen to the farmer's almanaque.\w8\0\s[0]\i[14]\i[1] What?\w8 It's really interesting!\w8\1\s[10]\n\n[half]And I had to listen to it for \s[11]TWO HOURS!\w8\0\s[0]\i[2]\i[25]\n\n[half]Only because you snuck into the car when I was driving to town.\w8 It's far.\w8\e"
+	
+	"\1\s[10]\i[1]\i[14]Did you ever talk to Bonquisha again?\w8\0\s[0]\i[4]\i[7]\i[12]\i[25]N-\w4No.\w8 I haven't seen her since the diner.\w8\1\s[10]\i[1]\n\n[half]Hmm.\w8\i[14] Been with anyone?\w8\0\s[0]\i[8]\i[25]\n\n[half]That's none of your business,\w4 Max.\w8\1\s[10]\i[1]\n\n[half]So no.\w8\s[10]\i[27] Figures.\w8\e"
+	
+	if bleeped == 0 //on / censored!
+	{
+		"\1\s[10]I can't believe %(user) %(fuck)ing censored me.\w8\0\s[0]\i[15]\i[1]\i[28]I think it's nice you're not saying anything naughty anymore.\w8\1\s[10]\i[18]\n\n[half]Suck a fat one, %(bitch).\w8\0\s[0]\i[1]\i[12]\n\n[half]Mostly,\w4 at least!\w8\e"
+		
+		"\1\s[10]\i[8]This %(fuck)ing sucks.\w8 \0\s[0]\i[1]\i[12]\i[25]\1I should be allowed to swear as much as I want,\w4 %(user).\w8\s[11] Who the %(hell) are you to tell me what I can do?\w8 \0\s[0]\i[12]\i[1]\i[28]Maybe %(user)'s just trying to help?\w8 \1\s[14]\n\n[half]How is this helping?\w8 \0\n\n[half]Well.\w8\s[0]\i[12]\i[9] %(Capitalise(they)) could be younger than you!\w8 And %(their) parents could be around!\w8 \1\s[10]\i[1]\i[14]\n\n[half]So?\w8\s[10]\i[27] Big %(fuck)ing whoop.\w8\0\s[0]\i[1]\i[12]\i[25]\1\s[10] Welcome to the real world,\w4 %(shit)head.\w8\i[8] People swear.\w8 \0\s[0]\i[12]\i[1]\n\n[half]Hmm.\w8\w8\w8\i[9] Sorry,\w4 %(user).\w8\e"
+		
+		"\1\s[10]\i[7]You know what -\w8\s[10]\i[26]\i[8] \0\s[6]\1%(shit) \w4%(fuck) \w4\0\s[2]\1%(hell) \w4%(damn) \w4%(bitch) \w4%(asshole).\w8 \0\s[0]\i[29]\i[3]\i[16]Max!\w8 \1\s[11]\n\n[half]This is %(bullshit)!!\w8\e"
+	}
+	
+	"\0\s[0]\i[1]\i[25]I worry over the Woodscouts sometimes.\w8\1\s[14]Why?\w8 They're %(asshole)s.\w8\0\i[8]\n\n[half]They can be a bit mean,\w4 yes.\w8\s[1] But have you ever seen them with a couselor?\w8 Or with anyone to help them?\w8 No wonder they fell prey to Daniel...\1\s[10]\i[27]\n\n[half]Then what's your excuse?\w8\e"
+	
+	"\0\s[1]This last Woodscout invasion really made a mess.\w8\1\s[13]You bet I'm not cleaning that up.\w8\e"
+	
+	"\1\s[10]The Flowerscouts started selling cookies again.\w8\0\s[0]\i[28]\i[0]We should buy some to show our support-!\w8\w8\n\i[8]\i[12]\i[21]If we had the money,\w4 that is.\w8\1\s[10]\i[2]\n\n[half]Wouldn't wanna buy them even if we did.\w8 I don't trust how addicting they seem to be.\w8\e"
+	
+	"\0\s[0]Been driving Gwen to more interviews!\w8 \s[4]I hope she finds her dream job,\w4\s[0]\i[9]\i[26]\i[19]\i[11] just like how I already found mine!\w8\1\s[14]You have to be clinically insane to actually like working in that %(hell)hole.\w8\e"
+	
+	"\0\s[0]\i[29]We have a few chores to get done when we get back to camp!\w8\s[0]\i[28]\i[12] You campers are gonna have to help out.\w8\1\s[10]\i[8]Damn.\w8\0\s[0]\i[8]\i[25]\n\n[half]And no revolution this time!\w8\1\n\n[half]\s[16]Yeah yeah.\w8\e"
+	
+	"\0\s[4]I can't wait to share scary stories at the campfire tonight!\w8\1\s[14]David,\w4 your last scary story was about %(Davidscares).\w8\s[10]\i[27] And Gwen's was about %(Gwenscares).\w8\s[10]\i[8] You should give it up.\w8\0\s[0]\i[11]\i[25]\n\n[half]What do you mean??\w8 Both of those are pretty scary!\w8\e"
+	
+	"\1\s[11]I got served a boot last night for dinner.\w8\0\s[0]\i[25]Huh.\i[15]\w8 That certainly wasn't on the menu.\w8\1\s[11]\i[24]\i[1]\i[7]\n\n[half]Where the hell did that crazy old fart even come from?\w8\s[10]\i[8] Why's he so weird?\w8\0\s[0]\i[25]\i[11]\n\n[half]I...\w4don't know.\w8\s[0]\i[12]\i[4]\i[25]\nQuartermaster has just always been there.\w8 Even when I was a kid -\w4\s[1] he really hasnt aged.\w8\e"
+	
+	"\0\s[-1]\1\s[10]\i[7]\i[14]\w8\w8\w8\i[1]\w8\w8\w8\s[10]\i[7]\i[14]\i[2]\w8\w8\w8\i[26]Where did David go-?\s[10]\i[1]\0\s[4]BOO!\w8\w8\s[0]\i[1]\i[12]\nAwww,\w4 still not easily spooked,\w4 huh?\w8\1\s[10]\i[8]\n\n[half]Nope.\w8\e"
+	
+	"\1\s[16].\w8.\w8.\w8\0\s[0]\i[1]Doing okay Max?\w8\1\s[10]\i[8]\n\n[half]Thinking of that magic trick Harrison did on me that one time.\w8 Sometimes I still gag thinking about it.\w8\e"
+	
+	"\0\s[0]\i[9]\i[23]\i[28]Are you excited for this year's Camp Camporee Max?\w8 \1\s[10]\i[27]As excited as I can be with the possibility of competing over the camp's fate.\w8 Again.\w8\e"
+	
+	"\0\s[0]\i[9]\i[12]I hope you can enjoy summer camp just as much as I did when I was your age,\w4 Max.\w8\1\s[10]\i[8]Never gonna happen.\w8\e"
+	
+	"\0\s[0]%(user),\w4\i[9]\i[28] did you know that trees are the longest living organisms in the world?\w8\s[4] They don't die of old age!\w8\1\s[10]\i[27]No one cares David.\w8\e"
+	
+	"\0\s[0]\i[2]\i[25]I wonder if I'll be back in time for Nerf's therapy session.\w8\1\s[10]\i[14]You do therapy with him now?\w8\0\s[0]\i[1]\n\n[half]Yes,\w4 he's been making great progress!\w8\i[9]\i[26] He only stabs my hand once a week now!\w8\e"
+	
+	"\0\s[0]\i[1]How has Neil been doing?\w8\1\s[10]\i[8]That Tabii chick won't leave him alone.\w8\s[16] Can we get some better security around camp?\w8\0\s[0]\i[9]\i[12]\n\n[half]I'll try my best!\w8\e"
+	
+	"\0\s[0]\i[1]\i[15]How was stargazing with the Quartermaster?\w8\1\s[10]\i[8]You don't wanna know.\w8\e"
+	
+	"\1\s[10]\i[1]\i[14]David,\w4 weren't you missing for a few days?\w8 Where'd you go?\w8\0\s[0]\i[7]\i[4]\i[12]\i[25].\w8.\w8.\w8\w8\w8I uh.\w8\n\s[3]Made a friend.\w8\e"
+	
+	"\0\s[0]\i[28]\i[9]\i[19]Pine,\w2 cedar,\w2 oak,\w2 redwood,\w2 hazel,\w2 elm,\w2 olive-\s[2]\1\s[11]Will you PLEASE shut the %(fuck) up?!\w8\e"
+	
+	"\0\s[0]\i[12]\i[2]I wish I brought my guitar...\w8 \nBut I can always sing without it!\w8\1\s[10]\i[3]\i[7]\i[11]You better not.\w8\e"
+	
+	"\1\s[10]I wish the Flowerscouts weren't allowed on our side of the lake.\n\n[half]\w8\0\s[0]\i[12]\i[1]Aw,\w4 come on,\w4 Max.\w8 They're not so bad.\w8\1\s[10]\i[7]No,\w8 they're annoying,\w4 self-centered,\w4 and shallow.\w8\s[10]\i[24]\i[1] \0\s[0]\i[11]\i[25]\i[1]\1What do they even do in their spare time -\w4\s[14] copy each other's voices?\w8\s[11] They all sound the same!!\w8\e"
+	
+	"\0\s[0]\i[8]\i[25]Sniff. \w8\1\s[12]Oh %(shit)-\w4\nAre you feeling sick??\w8\0\s[0]\i[14]\i[25]\i[1]\n\n[half]Huh?\w8\s[0]\i[1] Oh no!\w8 My nose was just itchy.\w8\1\s[10]\n\n[half]Oh good.\w8\s[16] I don't wanna deal with a 'sick day'.\w8\e"
+	
+	"\1\s[10]\i[1]\i[23]Hey David.\w8 Remember that one time you made fun of Jerm-\0\s[5]AAaa-!\w4\nLet's change the subject!\w8\e"
+	
+	"\0\s[0]\i[25]\i[4]We're a little low on funding right now.\w8\1\s[10]\i[1]\i[23]I can have Quartermaster beat you and Gwen up again.\w8\0\s[0]\i[12]\i[9]\i[28]\n\n[half]Aaah...\w8\nNo that's okay Max,\w5 thank you.\w8\e"
+	
+	"\1\s[10]\i[2]Nikki has been hanging out with Dolph and Nerris a lot...\w8\0\s[0]\i[1]\i[28]That's nice!\w8 She's making new friends!\w8\1\s[10]\i[27]\n\n[half]I guess.\w8 I don't think they ever get anything done though.\w8\e"
+	
+	"\0\s[0]\i[1]Max,\w4 I heard you,\w4 Sasha,\w4 and Pikeman had to work together.\w8 How did it go?\w8\1\s[16]Horrible.\w8 Don't ask me again.\w8\e"
+	
+	"\0\s[0]\i[2]I wonder if I can get that therapy dog to visit our camp!\w8\i[8] It'd be very educational.\w8\1\s[10]\i[7]\i[11].\w8.\w8.\w8\0\s[0]\i[25]\i[1]\i[11]\n\n[half]Max?\w8 Are you okay?\w8\1\n\n[half]Whenisthedogcoming?\w8\0\s[6]\n\n[half]What?\w8\1\s[12]\n\n[half]UUH -\w4 nothing.\w8\s[15] Shut up.\w8\e"
+	
+	//--Chains\Choices
+	
+	"\1\s[10]\i[8]I had trouble sleeping last night.\w8\0\s[0]\i[12]\i[1]\i[25]Oh?\w8 Whats wrong?\w8\1\s[10]\i[4]\i[12]\n\n[half]Daniel.\w8 I can't stop thinking of that %(asshole).\e:chain=daniel"
+	
+	"\0\s[4]How about I lift everyone's spirits with a-\s[2]\1\s[11]NO.\e:chain=campsong"
+
+	"\1\i[14]\i[1]Hey David,\w4 who's your favorite camper?\w8\0\s[0]\i[25]\i[1]\i[14]What?\w8 Max I don't have a favorite.\w8\1\s[16]\n\n[half]Suuuuure...\w8\e:chain=favcamper"
+	
+	//--If statements
+	//shell talk
+	if nowshell == "master"
+	{
+		"\1\s[10]This hoodie is getting pretty old.\w8\0\s[0]\i[1]\i[15]Well then why don't you wear a different one?\w8\1\s[16]\n\n[half]This is the only one I have.\w8\e"
+		
+		"\0\s[0]\i[25]\i[2]Maybe I should try something different with my hair...\w8\1\s[10]\i[1]\i[23]You should dye it bright green.\w8 Match the leaves of the trees or some %(shit).\w8\0\s[0]\i[2]\i[18]\i[15]\n\n[half]\w8.\w8.\w8.\w8\1\s[12]\n\n[half]OH MY GOD.\w8\s[11] Don't actually consider it!\w8\e"
+	}
+	
+	//Saturday is free day!
+	if weekday == 6
+	{
+		"\1\s[10]\i[22]Saturdays are amazing.\w8\i[8] No scheduled activities,\w4 no other annoying campers,\w4\s[13] and no David and Gwen telling me what to do.\w8\0\s[1]Max,\w4 I'm right here.\w8\e"
+		
+		"\1\s[10]\i[22]You enjoying your Saturday,\w4 %(user)?\w8\i[8] I know I am.\w8\0\s[0]\i[9]\i[28]\i[23]It's always nice to have a little downtime and relaxation.\w8\1\s[10]\i[27]\n\n[half]Please.\w8 David,\w4\s[10]\i[1] you couldn't relax even if your life depended on it.\w8\e"
+	}
+	
+	//time of day
+	if timeslot == "earlymorning"
+	{
+		"\1\s[10]\i[8]\i[26]YAAAWN.\w8\n\s[16]Why are we even here this ealry??\w8\0\s[0]\i[8]Because %(user)'s an early riser!\w8\e"
+		
+		"\1\s[10]\i[8]I can barely keep my eyes open.\w8\0\s[0]\i[12]\i[1]Maybe I could help wake you up with a hug?\w8\1\n\n[half]\s[11]Abso\w6lutely\w6 %(fuck)ing\w6 not.\w8\e"
+	}
+	if timeslot == "morning"
+	{
+		"\0\s[0]\i[1]Maybe we could do some activities here!\w8\s[0]\i[28] You got any rope %(user)?\w8\s[4] Been wanting to re-do that knot tying class!\w8\e"
+		
+		"\1\s[10]\i[27]I guess I'd rather tolelrate this %(bullshit) than do activities.\w8\e"
+	}
+	if timeslot == "lunch"
+	{
+		"\1\s[10]\i[1]What's Quartermaster serving today?\w8\0\s[0]\i[1]I believe he is making mac and and cheese.\w8\1\s[10]\i[1]\i[14]\n\n[half]So you mean slop?\w8\s[10]\i[27] Geat.\w8\e"
+		
+		"\1\s[10]Do you have anything to eat in here %(user)?\w8\s[16] I'd rather not have my stomach explode from whatever Quartermaster plans on serving.\w8\e"
+		
+		"\0\s[0]\i[9]\i[11]\i[23]I hope you're getting yourself something nutricious and filling,\w4 %(user)!\w8 \1\s[16]Whatever you eat,\w4 it's gonna be better than what we get.\w8\s[10]\i[2] And you should consider yourself %(damn) lucky for it.\w8\e"
+		
+		"\0\s[0]\i[12]Don't forget to eat lunch yourself,\w4 %(user)!\w8 \1\s[10]\i[7]Tell us what you're having.\w8\s[10]\i[8] Maybe I can live vicariously through you.\w8\e"
+	}
+	if timeslot == "afternoon" || timeslot == "evening"
+	{
+		"\0\s[0]\i[9]Right now is around campfire time!\1\s[10]\i[1]\w8Yep.\w8\0\s[4]\n\n[half]Soooo\w4 how about a few songs to-\w4\s[2]\1\s[11]\n\n[half]NO!\w8\n\s[10]\i[8]No.\w8\e"
+		
+		{
+			"\0\s[0]\i[28]"
+			--
+			"Hey-"
+			"How about-"
+			"%(user)-"
+			"I think-"
+			"Isn't it time for-"
+			--
+			"\w4\1\s[10]\i[1]If this is about a campfire song,\w4\i[8] save your breath.\w8\0\s[0]\i[12]\i[25]\n\n[half]Aww.\w8\e"
+		} //I just thought a few different starts would be fun
+	}
+	if timeslot == "night"
+	{
+		"\1\s[10]\i[8]Yawn.\w8\0\s[0]\i[1]\i[12]You doing okay,\w4 buddy?\w8\1\s[16]\n\n[half]Fine enough.\w8\e"
+		
+		"\0\s[0]\i[12]Uh,\w4 %(user)?\w8 You might wanna send us back to camp soon.\w8\i[9] It's past Max's bedtime.\w8\1\s[11]HEY!\w8 Don't say it like that!\w8\e"
+	}
+	if timeslot == "latenight"
+	{
+		"\0\s[4]Right now would be an amazing time for stargazing.\w8\1\s[10]\i[1]\i[24]God -\w5\i[24] you're such an insominiac.\w8\e"
+		
+		"\1\s[10]\i[8]\0\s[0]\i[25]\i[12]\i[1]Are you doing okay Max?\w8 I know you're not used to staying up\w8.\w8.\w8.\w8\n\s[0]\i[25]\i[11]\i[1]Max?\w8 \1\![set,balloonwait,3]Zzz...zzzz...zzz...\![set,balloonwait,1]\w8\s[12]\n--!\w8\w8\c\s[11]I'M AWAKE!\w8\e"
+	}
+	
+	//feelings check
+	if friendlevel == 0
+	{
+		"\1\s[10]Who the hell even are you, %(user)?\w8\0\s[4]We can't wait to get to know you!\w8\e"
+		
+		"\0\s[0]\i[2]This place sure is different from camp.\w8\1\s[10]\i[2]Thank god for that.\w8\e"
+		
+		"\0\s[0]\i[9]\i[28]\i[21]\i[13]It's going to take me a while to get used to this new enviroment.\w8\s[0]\i[7]\i[4]\i[12] The pine trees back home are just so beautiful.\w8\e"
+		
+		"\1\s[10]\i[14]\i[2]This sure is new.\w8 Never thought I'd be in someone else's computer.\w8\0\s[0]\i[1] Yes,\w4 this expirience sure is unique!\w8\i[23]\i[9] I can't wait to experience everything it has to offer!\w8\e"
+		
+		"\0\s[0]\i[14]\i[1]I wonder what %(user) is like?\w8\s[4] We're gonna have a grand time getting to know %(them),\w4 Max!\w8\1\s[10]\i[2]Yeaaaaah,\w4 sure.\w8\e"
+	}	
+	if friendlevel == 1
+	{
+		"\1\s[16]Being here could be worse,\w4 I guess.\w8\0\s[0]\i[1]\i[28]%(user) has been nice so far!\w8\e"
+		
+		"\1\s[16]I don't trust %(them).\w8\0\s[6]Why,\w4 Max?\w8\1\s[10]\i[1]\i[26]\n\n[half]%(user) is trying to get on our good side.\w8 There's gotta be a catch.\w8\e"
+		
+		"\1\s[16].\w8.\w8.\w8\0\s[0]\i[12]\i[28]\i[1]C'mon Max!\w8 Some people are just nice!\w8 Stop being so suspicious of %(user).\s[0]\i[12]\i[1]\w8\1\n\n[half]No.\w8 People are nice when they have a reason to be.\w8\0\s[6]\n\n[half]I'm nice without reason!\w8\1\s[10]\i[27]\n\n[half]Yeah,\w4 but you're delusional.\w8 You don't count.\w8\e"
+		
+		"\0\s[0]\i[28]Thank you for the gifts,\w4 %(user)!\w8\i[12]\i[21]\i[9]\n(Max also appreaciates it -\w4 he's just not good at showing it.)\w8\e"
+		
+		"\0\s[0]\i[1]\i[15]What do you think about %(user),\w4 Max?\w8\1\s[10]\i[2]Well,\w4 I barely know %(them).\w8\n\i[8]But it's been tolerable here.\w8\e"
+	}	
+	if friendlevel == 2
+	{
+		"\1\s[16]Being here could be worse,\w4 I guess.\w8\0\s[0]\i[1]\i[12]\i[28]\i[30]%(user) is really nice,\w4 right?\w8\1\s[15]\n\n[half]Hmm.\w8\e"
+		
+		"\0\s[0]\i[1]\i[14]What are you thinking about,\w4 Max?\w8\1\s[10]\i[2]What %(user) is gonna give us today.\w8\0\s[0]\i[9]\i[28]\n\n[half]Do you like %(their) gifts?\w8\1\s[16]\n\n[half]Shaddaup.\w8\e"
+		
+		"\0\s[0]\i[1]\i[14]\i[28]Are you still suspicious of %(user),\w4 Max?\s[0]\i[1]\i[14]\w8\1\s[10]\i[2]No.\w8\s[13] Turns out %(they) might be just as delusional as you.\w8\0\s[2]\n\n[half]Oh.\w8\e"
+		
+		"\1\s[14]What is up with you,\w4 %(user)?\w8 Why are you giving us all this %(shit)?\w8\s[15] I don't get it...\w8\e"
+		
+		"\1\s[10]If you want something out of me,\w4 you're not getting it.\w8 No matter how nice you are.\w8\i[2] Just so you know.\w8\e"
+	}	
+	if friendlevel == 3
+	{
+		"\s[0]Hey,\w4 %(user)?\w8\i[12] Thank you\w8\i[30] For everything.\w8\i[9] You made being here pretty wonderful.\w8\e"
+		
+		"\1\s[10]\i[2]Fine,\w4 I admit it.\w8\i[8] Being here isn't terrible.\w8\s[10]\i[14] Happy,\w4 %(user)?\w8\s[13] You better be.\w8\e"
+		
+		{
+			_s = ""
+			if presuffix == "masculine" || presuffix == "feminine"; _s = "s"
+			
+			"\0\s[0]\i[1]\i[28]We should get %(user) a gift sometime!\w8\1\s[10]\i[1]\i[14]What?\w8 Why?\w8\0\n\n[half]Because %(they) give%(_s) us gifts all time!\w8 And they're great!\w8\1\n\n[half]\w8.\w8.\w8.\w8\s[15]Yeah,\w4 alright.\w8\e"
+		}
+		
+		"\0\s[0]\i[1]\i[28]We should have %(user) come visit us at camp!\w8\1\s[14]I thought you cared about %(user).\w8\s[15] At least I do.\w8\s[10]\i[1] Let's not expose %(them) to that.\w8\e"
+		
+		"\0\s[0]\i[28]Hey %(user)!\w8 If we were ever to bake you a cake or a treat...\w8 \nWhat flavor would you like?\w8\1\s[10]\i[27]God,\w4 can you make it any more obvious?\w8\e"
+	}
+	
+	//that's all for now!
+}
+
+
+//--Chains
+//Each chain function will go through each part of the chain in order even if it's in one function, until it goes to \e:chain=end which will end the chain
+//Pay careful attention to the CHAIN text and double brackets for these. Double brackets, CHAIN, dialogue, double brackets, CHAIN. If you are planning on making chains, I'd recommend just copying and pasting the chain example here and changing the dialogue and name of the function as you need. Less likely for mistakes to happen, you know?
+
+daniel
+{{CHAIN
+	"\1\s[16]\0\s[0]\i[25]\i[12]Umm...\w8 \n%(user),\w4 Daniel is.\w8.\w8.\w8\i[1]\i[7]a very dangerous man.\w8 Who has tried to hurt everyone at camp.\w8\s[1] It's okay to be scared-\s[2]\1\s[11]I'M NOT SCARED!\w8\n\0\s[0]\i[12]\i[25]\i[1]\1\s[10]\i[4]\i[7]Just\w8.\w8.\w8.\w8perturbed.\w8\e"
+	
+	"\1\s[10]\i[4]\0\s[0]\i[1]\i[25]\i[12].\w8.\w8.\w8.\n\i[7]Max.\w8 It's okay.\w8 You know that,\w4 right?\1\s[10]\i[2].\w8.\w8.\w8.\i[7]Yeah.\w8\s[16] I know.\e:chain=end"
+}}CHAIN
+
+
+campsong
+{{CHAIN
+	"\n\![*]\q[What song?,songyes] \n\![*]\q[I'm not touching that.,no]\e:chain=end"
+}}CHAIN
+
+favcamper
+{{CHAIN
+	"\1\s[10]\i[1]It's Nikki,\w4 isn't it?\w8\0\s[0]\i[14]\i[1]\i[25]What?\w8 No.\w8\1\s[14]\n\n[half]Why not?\w8 She's almost as much of a nature fanatic as you.\w8\0\s[0]\i[1]\n\n[half]I like doing all the activites at Camp Campbell -\w4 even if it's not nature related.\w8\1\s[10]\n\n[half]Mhmm...\w8\e"
+	
+	"\1\s[14]What about Dolph?\w8 He's cute and obedient.\w8\0\s[0]\i[1]\i[29]Yes,\w4 but-\1\s[10]\i[2]\n\n[half]Or maybe Space Kid.\w8 He's easy to manage.\w8\0\s[0]\i[12]\i[1]\n\n[half]I still don't have a favorite,\w4 Max.\w8\e"
+	
+	"\1\s[14]Maybe Nerris?\w8 Or even Ered-\0\s[0]\i[12]\i[1]Max,\w8 if I told you\w4 YOU\w4 were my favorite camper,\w4 would you believe me?\w8\1\s[12]\n\n[half]What?\w8 No!\0\s[0]\i[9]\i[28]\n\n[half]Exactly!\w8 And I don't believe in HAVING a favorite camper.\w8 You're all my favorite!\w8\1\s[10]\i[1]\n\n[half]To quote Neil:\w4 'Literally impossible.'\w8\n\s[10]\i[27]But fine.\w8\e:chain=end"
+}}CHAIN
+
+
+//you don't need an empty select for a blank cancel! you can just have it lead to nothing
+Select.songyes
+{
+	"\1\s[10]\i[24]\i[3]\i[7]NO!\0\s[0]\i[9]\i[23]\i[11]I'm glad you asked!\w8 I've got a song that tell us all the camps at Campcambell.\w8 We've got:\x\s[0]\i[9]\i[19]\i[11]\![set,balloonwait,0.2]Archery\w7\cHiking\w4\cSearch and Rescue\w4\cBiking\w4\cHorseback\w4\c\![set,balloonwait,0.45]Training that will save you from a heart attack\![set,balloonwait,0.2]\w4\cScuba diving\w4\cMiming\w4\c\![set,balloonwait,0.5]Keeping up with rhyming\w4\c\![set,balloonwait,0.3]Football\w4\cLimbo\w4\cScience\w4\c\![set,balloonwait,0.4]Stunting\w4\cPre-Calc\w4\cSpaceships\w4\c\![set,balloonwait,0.5]Treasure hunting\w4\cBomb defusal\w4\![set,balloonwait,0.8]\cNo refusal\w4\cFantasy\w4\cCircus trapeze\w4\cAnd Fights\w4\cAnd Ghosts\w4\cAnd Paints\![set,balloonwait,0.35]\w4\cAnd Snakes\w4\cAnd Knives\w4\c\f[bold,true]And Chess\w4\c\f[bold,true]\f[height,26]And Dance\w4\c\f[bold,true]\f[height,36]And Weights–\w4\c \f[height,46]\f[bold,true]IT'S CAMP CAMP!\![set,balloonwait,1]\s[0]\i[12]\i[9]\f[bold,false]\f[height,16]\w8\w8\w8\n...bell.\w4\1\i[8]I hate you both\w8\e"
+}
+
+
+//Keeps track of if an hour has passed.
+HourCheck
+{
+	if passmin >= 59
+	{
+		passmin = 0
+		passhour = passhour + 1
+	}
+}
+
+//This is what will trigger time-based dialogue
+//%(hour12) stores the time.
+OnMinuteChange
+{
+	HourCheck
+	--
+	if minute == 0
+	{
+		if hour == 12 //noon time
+		{
+			"\0\s[0]\i[22]\i[4]It's noon!\w8\i[7]\i[11]\i[28] The hottest time of the day!\e"
+		}
+		elseif hour == 0 //midnight time
+		{
+			"\1\s[14]It's midnight.\w8\s[10]\i[12] Can we please go sleep?\e"
+
+		}
+		//else
+		//{
+			//"\0\s[0]It's %(hour12)'o clock.\e"
+		//}
+	}
+	
+	elseif mikireflag == 1
+	{
+		MikireTalk
+	}
+}
+
+//--OnSecondChange
+OnSecondChange
+{
+	if passsec == 59
+	{
+	 	passsec = 0
+		passmin = passmin + 1
+	}
+	else
+	{
+	 	passsec = passsec + 1
+	}
+	if mikireflag == 0 && reference1 == 1 //Dialogue for putting them off the screen.
+	{
+		//"\0\s[0]You've moved me off screen."
+		
+		MikireTalk
+	}
+	if mikireflag == 1 && reference1 == 0 //Dialogue for coming back on the screen
+	{
+		EndMikireTalk
+	}
+	mikireflag = reference1 //reference1 is if the ghost is offscreen or not
+	if reference2 == 1
+	{
+		//This dialogue is for when the two characters are overlapping each other.
+		
+		"\1Ack!\s[-1]\0\s[8]Hey there!\w8 Did you want a hug that much,\w4 buddy?\w8 \1\n\n[half]Put me down put me down put me %(fuck)ing down RIGHT NOW!!\w8 \0\n\n[half]Okay,\w4 okay.\w8 \s[0]\1\s[10]\![move,--base=0,--x=-150,--time=50]\s[11]\n\n[half]%(user)!!\w8 Don't you EVER do that again!!\w8 \0\n\n[half]Maybe give us a litle warning next time.\w8\e"
+	}
+}
+// %screenwidthx%screenheight
+// \4 -> move away, \5 - >move closer
+
+
+//---- MikireTalk ---------------------------------------------------------------------
+//MikireTalk is dialogue for when your main character is off-screen.
+//Note the hotkey combo Ctrl-Shift-F12
+MikireTalk
+{
+	"\0\s[2]Uhhh -\w8 %(user)?\w8 I'm off the screen!\w8\1\s[10]\i[27]Just push Ctrl-Shift-F12 to bring him back.\w8\e"
+}
+
+//----EndMikireTalk--------------------------------------------------------------------
+//For after you bring the character back on screen.
+EndMikireTalk
+{
+	"\0\s[0]\i[12]What a relief!\e"
+}
+
+
+//**** OnSurfaceRestore *****************************************************************
+//reference0 will refer to the Sakura, reference1 will refer to the Kero
+OnSurfaceRestore
+{
+	"\0\s[0]\1\s[10]\e"
+}
+
+
+
+
+//--OnKeyPress
+OnKeyPress
+{
+	if reference0 == "t"
+	{
+		OnAiTalk
+	}
+	elseif reference0 == "r"
+	{
+		OnLastTalk
+	}
+	elseif reference0 == "f1"
+	{
+		"\![open,readme]"
+	}
+}

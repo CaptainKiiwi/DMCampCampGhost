@@ -1,0 +1,136 @@
+﻿//---------------------------The User's Name--------------------------
+//This .dic file has to do with setting the user's name and pronouns.
+
+
+//--OnTeachName
+//This is called from the config menu in the main character's double click menu when the user says they want to change their name. If you look in menu.dic you'll see the code leading to here.
+//That last tag there for \![set,balloontimeout,-1] makes it so the balloon won't time out if the user takes too long.
+OnTeachName	
+{
+	"\0\s[0]\i[15]Got a new name,\w4 huh?\w8 \1\s[14]Is that allowed?\w8 \0\s[0]\i[26]\i[9]\i[11]\i[23]\n\n[half]Sure it is!\w8 \1\s[10]\i[27]\0\s[0]Well,\w4 don't keep us in suspense!\w8\i[9] Tell us what it'll be!\w8"
+	
+	"\1\s[10]\i[14]Changing up your identity?\w8 \0\s[4]It's always fun to try new things!\w8 \1\s[13]\n\n[half]Are you on the run from the popo or something?\w8 \0\s[1]\n\n[half]No,\w4 Max.\w8\s[0]\i[12] You shouldn't assume it's for illegal reasons.\1\s[10]\i[22]\i[2]\w8 \0\s[0]\i[9]\i[11] Some people just enjoy a change of pace every once in a while!\w8 \1\n\n[half]Hmm.\w8"
+	
+	"\0\s[4]Ooh,\w4 tell us what your new name's gonna be!\w8 \1\s[10]\i[27]That sounds like a bigger hassle for us than I wanna deal with.\w8 \0\s[0]\i[28]\i[22]\i[4]\n\n[half]Thankfully,\w4 we have a nifty little thing to help us remember no matter what!\s[0]\i[22]\i[4]\w8 \1\s[14]\n\n[half]It's programming,\w4 isn't it?\w8 \0\i[9]\n\n[half]Yessiree!\w8 \1\s[10]\i[8]\n\n[half]%(Capitalise(fuck)).\w8"
+	--
+	"\![set,balloontimeout,-1]\![open,inputbox,OnNameTeach,-1]\e"
+}
+
+
+//again, to prevent gremlins from breaking the firstboot sequence, we have this bit! it will literally prevent the inputbox from closing until you enter something into it
+OnUserInputCancel
+{
+	"\C\![open,inputbox,%(reference0),-1]"
+}
+
+
+//--OnNameTeach
+//This is where the user inputs their name and the ghost analyzes it. If you want your ghost to have specific responses to certain names, this is where you would add them.
+
+OnNameTeach
+{
+	tempname = reference0 //this stores the name value from reference0 in tempname
+	reference0 = TOLOWER(reference0) //changes it to lowercase
+	reference0 = REPLACE(reference0," ","") //removes spaces
+	reference0 = REPLACE(reference0,".","") //removes periods
+	reference0 = REPLACE(reference0,"-","") //removes dashes
+	//Note that the names you will be checking for should be in all lowercase, however.
+	
+	//if tempname == user && firstboot != 1
+	//{
+		//--
+		//OnTalkConfig
+	//}
+	if reference0 == "david" //checking for the sakura
+	{
+		"\0\s[0]\i[29]Hey-!\w8\s[2] That's my name!\w8\s[0]\i[28]\i[18]\i[9]\i[12] What a weird coincidence,\w4 haha!\w8\s[0]\i[12] But that might be confusing.\w8 Do you have a nickname?\w8"
+		--
+		"\![open,inputbox,OnNameTeach,-1]"
+	}
+	elseif reference0 == "max" //checking for the kero
+	{
+		"\1\s[10]Nice try,\w4 %(bitch).\w8\i[23]\i[2] Pick something else.\w8"
+		--
+		"\![open,inputbox,OnNameTeach,-1]"
+	}
+	elseif reference0 == "" //blank check
+	{
+		user = "Friendo" //sets the username to something so it won't break everything
+		
+		"\1\s[14]You didn't put in anything.\w8\0\s[0]\i[9]We can call you Friendo for now!\1\s[10]\i[27]\w8"
+		--
+		if firstboot == 1
+		{
+			"\x%(firstbootredirect)"
+		}
+		else //not firstboot
+		{
+			"\e"
+		}
+	}
+	else //if the user put in a proper name the ghost can use.
+	{
+		user = tempname
+		
+		if firstboot == 1
+		{
+			//This dialogue will display the first time the user puts in their name.
+			firstboot = 0 //this turns the flag off
+			
+			"\0\s[0]That's a nice name,\w4 %(user).\w8 \1\s[10]\i[27]It's alright.\x\1\s[10]\0\s[0](Max and David are now on your computer!\w8\nDoubleclick them to use their respective menus.\w8\nRight click them for the ssp menu.\w8\nPress T to make them talk and R to make them repeat what they just said.\w8\nAnd finally, rub you cursor on their heads to give them a little pat.\w8\nHave fun!)\w8\w8\w8\w8\e"
+		}
+		else //regular name changing
+		{
+			"\1\s[10]\i[13]Alright,\w4 we'll call you %(user).\w8 \0\s[4]Hi %(user)!\w8\e"
+		}
+	}
+}
+
+//a failsafe against later if/else shenanigans...
+firstbootredirect
+{
+	firstboot = 0 //this turns the flag off
+	
+	"\1\s[10]\0\s[0](Max and David are now on your computer!\w8\nDoubleclick them to use their respective menus.\w8\nRight click them for the ssp menu.\w8\nPress T to make them talk and R to make them repeat what they just said.\w8\nAnd finally, rub you cursor on their heads to give them a little pat.\w8\nHave fun!)\w8\w8\w8\w8\e"
+}
+
+
+//and here's pronounteach! redirects from the config menu
+OnPronoTeach
+{
+	if reference0 == "masc"
+	{
+		presuffix = "masculine"
+	}
+	elseif reference0 == "fem"
+	{
+		presuffix = "feminine"
+	}
+	elseif reference0 == "neit"
+	{
+		presuffix = "undefine"
+	}
+	//elseif reference0 == "both"
+	elseif reference0 == "menu"
+	{
+		OnMenuRun
+	}
+	elseif reference0 == "config"
+	{
+		OnTalkConfig
+	}
+	else //cancel
+	{
+		"\0(Remaining %(they)/%(them)/%(their).)"
+		//\0So %(they)/%(them)/%(their) is fine for you?\w8 \1Then why'd you ask us to change it?\w8
+		//\1Changed your mind on that?\w8 \0We'll keep referring to you with %(they)/%(them)/%(their),\w4 then!\w8
+		--
+		"\n\n[half]\![*]\q[Back to Config menu,configmenu] \n\![*]\q[Back to Main menu,BACKTOMENU] \n\![*]\q[Cancel,CANCEL]\e"
+	}
+	--
+	"\0(Changed to %(they)/%(them)/%(their).)\w8"
+	//\0You got it!\w8 We'll use %(they)/%(them)/%(their) for you.\w8 \1Sure.\w8
+	//\1So you want us to refer to you as %(they)/%(them)/%(their)?\w8 \0You got it!\w8
+	--
+	"\n\n[half]\![*]\q[Back to Config menu,configmenu] \n\![*]\q[Back to Main menu,BACKTOMENU] \n\![*]\q[Cancel,CANCEL]\e"
+}

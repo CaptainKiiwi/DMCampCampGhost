@@ -1,0 +1,505 @@
+﻿//---------------------------Miscellaneous Functions--------------------------
+//A lot of this can be scrapped lol
+
+
+//--OnFileDrop2
+//OnFileDrop2 handles how your ghost will set an image as the desktop background when someone drags and drops an image on them.
+//This is entirely optional. Can be removed safely.
+OnFileDrop2
+{
+	_filepath = SPLITPATH(reference0)
+	_filename = _filepath[2]
+	_fileext = TOLOWER(_filepath[3])
+	case _fileext
+	{
+		when ".jpg", ".jpeg", ".bmp", ".png"
+		{
+			Wallpaperfile = reference0
+			
+			"\0\s[0]\i[22]\i[4]\i[25]\1\s[10]\i[1]\i[14]What's that?\w8 \0\s[0]\i[22]\i[4]\i[28]It's a picture!\w8 %(_filename)%(_fileext)!\w8\s[0]\i[22]\i[4]\i[26] We can set this as your wallpaper,\w4 %(user)!\w8 How do you want us to set it?"
+			--
+			"\*\n\n[half]\![*]\q[Centered,OnWallpaper,centre] \n\![*]\q[Tiled,OnWallpaper,tile] \n\![*]\q[Stretched,OnWallpaper,stretch] \n\n[half]\![*]\q[No thanks,OnWallpaper,cancel]\e"
+		}
+		when ".mid", ".wav", ".mp3", ".wma", ".au", ".ogg", ".flac"
+		{
+			"\1\s[10]\i[14]\i[7]%(_filename)%(_fileext) is a music file.\w8\i[8] I wonder what kind of music?\e"
+		}
+		others //Any other file format.
+		{
+			if _fileext == "" //If it's a folder. Using \_? lets you display the slashes and such in dialogue, but you have to toggle it off after you no longer need it
+			{
+				"\0\s[0]This is \_?%(_filepath[1])\_?.\w8 \1\s[10]\i[27]Woopdedoo.\e"
+			}
+			else //not a folder
+			{
+				"\0\s[0]This is %(_filename)%(_fileext).\w8 \1\s[10]\i[27]Woopdedoo.\e"
+			}
+		}
+	}
+}
+
+//This sets the wallpaper up.
+OnWallpaper
+{
+	if reference0 == "centre"
+	{
+		"\![set,wallpaper,%(Wallpaperfile),center]"
+	}
+	elseif reference0 == "tile"
+	{
+		"\![set,wallpaper,%(Wallpaperfile),tile]"
+	}
+	elseif reference0 == "stretch"
+	{
+		"\![set,wallpaper,%(Wallpaperfile),stretch]"
+	}
+	else //cancel
+	{
+		"\0\s[0]Oh,\w4 okay!\w8 Nevermind then.\e"
+	}
+	--
+	"\0\s[0]Done!\e"
+}
+
+
+
+//---- OnInstallBegin -------------------------------------------------------
+//OnInstallBegin is called when a file with an included install.txt is dropped on your ghost.
+OnInstallBegin
+{
+	"\0\s[0]\i[26]\i[9]Sure,\w4 I'll install this for you!\w8 \1\s[10]\i[8]There's an install.txt file in here,\w4 I guess.\w8\e"
+	
+	"\1\s[14]What's this?\w8 \0\s[0]\i[9]We'll help you unpack all that,\w4 %(user)!\w8\e"
+}
+
+//---- OnInstallComplete -------------------------------------------------------
+//OnInstallComplete runs once the file above has finished installing.
+//reference0 checks what type it is, %(reference1) checks the name as defined in descript.txt
+OnInstallComplete
+{
+	if reference0 == "ghost"
+	{	
+		if reference1 == "Camp Camp"
+		{
+			"\0\s[2]That's us!\w8\1\s[12]How in the %(hell) did you make two of us??\e"
+		}
+		//elseif reference1 == ""
+		else //For any other ghost
+		{
+			"\0\s[0]You got a new ghost!\w8\1\s[10]Their name is %(reference1).\w8 \0\s[4]\n\n[half]Did you make a new friend,\w4 %(user)?\w8 \1\s[10]\i[2]\i[22]\n\n[half]More like a new victim.\w8"
+			
+			"\0%(reference1)!\w8\i[9]\i[26] I can't wait to see how they take to camp!\w8 \1\s[14]Pretty sure we're the only ones camping here...\w8"
+			
+			"\1\s[10]\i[15]Oh,\w4 good.\w8\s[13] New blood.\w8 \0\s[0]\i[9]\i[26]\i[23]That's the type of positive spirit I like to see!\w8"
+			--
+			"\*\_q\n\n\![*]\q[Call %(reference1),CallGhost] \n\![*]\q[Change to %(reference1),ChangeToGhost] \n\n[half]\![*]\q[No action needed,cancelnodialogue]\e"
+		}
+	}
+	elseif reference0 == "shell"
+	{
+		"\0\s[0]You got a new Shell!\w8\1\s[10]It's called %(reference1).\e"
+		
+	}
+	elseif reference0 == "balloon"
+	{
+		if reference1 == "Camp Campbelloon"
+		{
+			"\0\s[0]That's for us!\w8\i[1] Doesn't it remind you of Camp Campbell?\w8 \1\i[2]I'd rather not be reminded that I'm stuck there.\w8\e"
+		}
+		else
+		{
+			"\0\s[0]You got a new balloon!\w8\1\s[10]It's called %(reference1).\w8\e"
+			
+			"\0\s[0]\i[29]\i[11]Ooh,\w4 that'll make our dialogue look interesting!\w8 \1\s[10]\i[22]\i[14]Maybe it'll liven things up around here a bit more.\w8\e"
+		}
+	}
+	//elseif reference0 == "plugin"
+	//elseif reference0 == "calendar skin"
+	//elseif reference0 == "headline" || reference0 == "rss"
+	else //for any other file they'd install
+	{
+		"\0\s[0]That's %(reference1)!\w8 \1\s[16]Why are you making us do all your work for you,\w4 %(user)?\w8\s[10]\i[27] This is a load of %(bullshit).\w8 \0\s[0]\i[1]\i[12]Come on,\w4 Max.\w8 Don't you wanna help out your friends?\w8 \1\s[10]\i[8]%(user) is not my friend.\w8 \0\s[1]\e"
+	}
+}
+
+//Calling the ghost that was just installed.
+Select.CallGhost
+{
+	"\![call,ghost,lastinstalled]\e"
+}
+
+//Opening the ghost that was just installed.
+Select.ChangeToGhost
+{
+	"\![change,ghost,lastinstalled]\e"
+}
+
+//---- OnInstallFailure -------------------------------------------------------
+//This can all be shortened to a single error message if you'd like.
+OnInstallFailure
+{
+	if reference0 == "artificial" //If the user cancels by double clicking the balloon
+	{
+		"\1\s[12]\0\s[2]Oh!\w8 \1\s[10]\i[14]Guess we're not doing that.\w8\e"
+		
+		"\1\s[12]Uhh -\w8\s[11] %(fuck) you??\w8 We were working on that!\w8\e"
+		
+		"\0\s[2]Ah.\w8 \1\s[14]Slapped it right outta your hands there.\w8 \0\s[0]\i[12]\i[25]\n\n[half]Hmm.\w8\e"
+	}
+	else //not user caused errors
+	{
+		"\0\s[0]\i[12]\i[25]The installation has failed.\w8 "
+		
+		"\0\s[0]\i[25]It\w3\i[12] uh\w3 didn't work.\w8 "
+		
+		"\0\s[0]\i[25]\i[12]It's not working??\w8 \1\s[14]Why not??\w8 \0\n\n[half]"
+		--
+		if reference0 == "unsupported"
+		{
+			"\0\i[8]It's just something we don't support."
+			
+			"\0\i[8]I don't think we can support this..."
+		}
+		elseif reference0 == "extraction"
+		{
+			"\0\i[8]I couldn't get it out of its file."
+			
+			"\0\i[8]It wouldn't let me pull it out.\w8 \1\s[13]\nHeh.\w8 \0\s[5]\n\n[half]No not like that!!"
+		}
+		elseif reference0 == "invalid type" //install.txt isn't set up properly
+		{
+			"\0\s[6]I can't read the instructions all that well.\w8\s[0]\i[12]\i[25] Maybe something in the install text...?"
+			
+			"\0\s[6]Something in the install text wasn't set up properly,\w4\s[0]\i[12]\i[25]\i[8] so I can't work with it."
+		}
+		else //other errors
+		{
+			"\0\s[6]All I can read is '%(reference0)'.\w8 \1\s[10]\i[27]Unhelpful."
+			
+			"\0\s[6]'%(reference0)'??\w8 \1\s[14]What does that even mean??"
+		}
+		--
+		"\w8\w8\w8\w8\e"
+	}
+}
+
+//--OnInstallRefuse
+//If the file you dropped can't be installed with this ghost. Also totally optional.
+//%(reference0) in this function refers to the ghost this file is associated with, reference1 is the type of item you tried to install
+OnInstallRefuse
+{
+	"\0\s[0]\i[25]We can't install this.\w8 It might be for %(reference0) instead!\w8\e"
+	
+	"\0\s[0]This isn't for us.\w8 \1\i[15]Why'd you try to give it to us,\w4 %(user)??\w8\e"
+	
+	"\1\s[14]That don't look like it's a thing for us.\w8 \0\s[0]\i[1]\i[29]Might be for %(reference0) instead!\w8 \1\w8\w8\w8\n\n[half]Who the %(hell) is %(reference0)??\w8 \0\s[0]\i[1]\i[12]\n\n[half]%(user) probably knows!\w8 \1\s[10]\i[1]\n\n[half]Oh so you don't then.\w8\s[10]\i[27] Cool.\w8\e"
+}
+
+
+//**** Uninstallation ******************************************
+//This whole section is also completely optional. Can be safely removed.
+
+
+//--OnVanishSelecting
+//When you select the uninstall option in the menu.
+OnVanishSelecting
+{
+	"\0\s[0]\i[3]\i[25]\1\s[12]What?\w8 You're\w8.\w8.\w8.\w8\s[11]getting rid of us?!\w8 \0\s[1]\i[1]Calm down,\w4 Max.\1\s[16]\0\s[1]\w8 If %(user) doesn't want our company anymore,\w4 %(they) have the right to uninstall our program.\w8\s[0]\i[12] We'll miss you,\w4 %(user),\w4 but we understand.\w8\e"
+}
+
+//OnVanishSelected
+//When you decide to uninstall them. 
+OnVanishSelected
+{
+	"\1\s[10]\i[8]Bye.\w8\w8\s[-1]\w8\w8\b[-1]\0\s[3]Goodbye,\w4 %(user).\w8\w8\w8\e"
+}
+
+//--OnVanishCancel
+//If you select Uninstall from the menu, but decide not to do it.
+OnVanishCancel
+{
+	Maxfeels -= 5
+	Davidfeels -= 5 //idk do you think he'd lose affection for this?
+					//Yeah, David is a very sensitive person. He only acts mature here because he dealt with rejection before in the show, but saying "I dont wanna see you again" to him will hurt his feelings, even if he tries to hide it
+	
+	"\0\s[0]\i[12]\1\s[11]Don't scare me like that,\w4 you %(bitch)!\w8\e"
+}
+
+//--OnVanishButtonHold
+//This should trigger if you double click the ghost's balloon in the middle of OnVanishSelected above.
+OnVanishButtonHold
+{
+	"\0\s[1]\1\s[16]\e"
+}
+
+//---- OnVanished -----------------------------------------
+//OnVanished runs when you uninstall a different ghost and ssp returns to this one. Totally optional.
+//%(reference0) here is the name of the other ghost.
+OnVanished
+{
+	"\0\s[0]\1\s[10]" //setting up default pose again
+	--
+	"\0\s[0]\i[29]\i[12]Aww.\w8 %(reference0) was sent home.\w8\i[8] Now we won't see them again until next summer.\w8\i[27] \1Lucky %(bitch)...\w8\e"
+	
+	"\1\s[11]So you send %(reference0) back but keep us here??\w8 \0\s[6]Who'd want to get sent home anyway??\w8\e"
+}
+
+
+
+//**** Network Update *****************************************************************
+
+
+//---- OnUpdateBegin -------------------------------------------------------------
+//When you first tell your ghost to update.
+OnUpdateBegin
+{
+	"\0\s[4]Ooh!\w8 New things!\w8 \1\s[10]\i[27]Joy.\w8 \0\s[0]\i[1]\n\n[half]What do you think we're gonna get?\w8\i[28] More conversations?\w8\i[19]\i[9] More camp activities?\w8\s[0]\i[1]\i[23] More things for %(user) to give us??\w8\1\s[13]\n\n[half]It's probably just a bunch of bugs.\w8\s[10]\i[2]\i[22] \0\s[6]\n\n[half]We're supposed to be getting rid of all bugs,\w4 not adding them!\w8\e"
+	
+	"\1New things,\w4 huh?\w8 \0\s[4]Isn't it exciting??\w8 \1\s[10]\i[2]\n\n[half]Sure.\w8\e"
+	
+	"\1New things,\w4 huh?\w8 \0\s[4]Isn't it exciting??\w8 \1\s[10]\i[8]\n\n[half]%(Capitalise(fuck)) no.\w8\e"
+}
+
+//---- OnUpdateReady ---------------------------------------------------------
+//If the ghost finds new files to update with.
+//%(reference0) here storing the number of new files.
+OnUpdateReady
+{
+	reference0++ //makes sure it starts at 1 instead of 0
+	
+	"\1\s[10]There's %(reference0) new things.\w8\e"
+	
+	"\0\i[29]\i[11]Wow!\w8 %(reference0) new things!\w8 \1\s[10]\i[27]This is so %(fuck)ing dumb...\w8\e"
+	
+	"\1\s[14]Looks like the number's %(reference0) this time.\w8 \0\s[0]\i[9]\i[23]\i[16]\i[26]Let's get to work!\w8\e"
+}
+
+
+//---- OnUpdate.OnDownloadBegin ------------------------------------------------
+//This dialogue plays when they begin downloading a new file.
+//the way this is set up, they're just filling out a checkbox!
+
+//reference0 - file being downloaded
+//reference1 - number of file being downloaded, as in "this is file 1 out of 9"
+//reference2 - overall number of files to download, counting zero. so if there are ten files, it'll display as 9.
+//reference3 - what's being updated - ghost, shell, balloon, plugin, headline, baseware
+
+OnUpdate.OnDownloadBegin
+{
+ 	"\_q\b[2]*Downloading %(reference0)...\n\n"
+	--
+	Update_Process = TOINT(reference1) + 1
+	Update_Total = TOINT(reference2) + 1
+	Update_Remaining = Update_Total - Update_Process
+	
+	PointA = 1
+	PointB = 1
+	
+	_txt = ""
+	
+	while PointA <= Update_Process
+	{
+		_txt += "☑"
+		PointA++
+	}
+	while PointB <= Update_Remaining
+	{
+		_txt += "☐"
+		PointB++
+	}
+	--
+	"%(_txt)\n\n%(Update_Process) of %(Update_Total)"
+	--
+	"\w5\e"
+}
+
+//---- OnUpdate.OnMD5CompareFailure ---------------------------------------------------
+//_remaining should be the number of the file that's giving the error, in the order they're being downloaded. currentfile will be the file path.
+OnUpdate.OnMD5CompareFailure
+{
+	_remaining = Update_Remaining + 1
+	
+	"\0\s[0]\i[11]\i[25]\1\s[10]\i[3]\_sOh.\_s\w8 \0\s[1]Well that's not good...\w8 \1\s[16]\n\n[half]Told you it was gonna be bugs.\w8\e"
+	
+	"\0\s[1]Uh-oh.\w8 \1\s[14]What now?\w8 \0\n\n[half]I think %(_remaining) in '%(currentfile)' doesn't match up...\w8\e"
+}
+
+//---- OnUpdateFailure -------------------------------------------------------------
+//Error messages. Can also be truncated into a single message!
+OnUpdateFailure
+{
+	if reference0 == "timeout"
+	{
+		"\0\s[0]Timed out.\w8 \1\s[13]Hah.\w8 \0\i[1]\i[25]\i[12]\n\n[half]That means you were timed out too,\w4 Max.\w8 \1\n\n[half]How is this my problem?\w8\s[10]\i[23]\i[27] %(user)'s the one who's gotta deal with it."
+		
+		"\1\s[11]Hey!\w8 \0\s[2]\1Nobody gets to time me out!!\w8 \0\s[0]\i[9]\i[26]\i[12]\i[21]Whoopsie."
+	}
+	elseif reference0 == "md5 miss"
+	{
+		"\0\s[6]Something wasn't adding up...\w8 \1\s[10]\i[27]No one around here can do proper math.\w8 \0\s[0]\i[12]\n\n[half]Make sure you check that everything was loaded in properly to the repository where we're being stored!\w8 \1\s[16]\n\n[half]Yeah that doesn't sound creepy at all."
+		
+		"\1\s[14]So,\w4 looks like something's different from the freezer we're being stored in.\w8 \0\s[0]\i[1]Repository,\w4 Max.\w8 \1\s[10]\i[27]\n\n[half]Same difference."
+	}
+	elseif reference0 == "artificial" //If the user cancels the update by double clicking the balloon
+	{
+		"\s[0]\i[12]\i[25]\0Oh.\w8\s[0]\i[12] Not ready for that?\w8 \1\s[16]Boo,\w4 you %(bitch)."
+		
+		"\0\s[0]\i[12]\i[25]Aww.\w8 I was really looking forward to new stuff..."
+		
+		"\1\s[11]You just trying to piss us off,\w4 %(user)?\w8 \0\s[6]Maybe there really were bugs in there and %(user) was trying to keep us from opening that can of worms?\w8 \1\s[10]\n\n[half]Maybe.\w8\i[8] Unlikely,\w4 though."
+	}
+	else //for other errors
+	{
+		"\0\s[0]\i[15]\i[25]'%(reference0)'??\w8 \1\s[11]What the %(hell) does that mean??\w8 \0\i[8]\n\n[half]I hope you know,\w4 %(user).\w8 That way,\w4\s[4] you can get it fixed for next time!"
+		
+		"\1Nothing doing,\w4 huh?\w8 \0\s[6]'%(reference0)'??\w8 \1\s[14]\n\n[half]What's that even mean?\w8 \0\s[0]\i[12]\i[1]\n\n[half]Hopefully,\w4 %(user) knows!\w8 \1\s[10]\i[8]\n\n[half]Hmph."
+	}
+	--
+	"\w8\w8\w8\w8\w8\e"
+}
+
+
+//---- OnUpdateComplete -------------------------------------------------------------
+//When the ghost has finished the update process.
+OnUpdateComplete
+{
+	if reference0 == "none" //if the ghost had nothing to update with
+	{
+		"\0\s[0]\i[11]\i[25]Nothing new??\w8\s[0]\i[12]\i[25] Aww...\w8 \1\s[10]\i[11]\i[2]That's less work for us.\w8\i[23] And less bugs to deal with...\w8\e"
+		
+		"\1Nothing new...\w8 \0\i[12]\i[25]Aww.\w8 I was so looking forward to some new things to do with %(user)...\w8\e"
+	}
+	else //if the ghost has updated successfully
+	{
+		"\0\s[4]All finished!\w8 \1\s[16]That...\w8was surprisingly painless.\w8 \0\s[0]\i[1]\i[28]\i[14]\n\n[half]See,\w4 Max?\w8\s[0]\i[9]\i[28]\i[11] New things are good!\w8 \1\s[10]\n\n[half]As long as they're not filled with bugs.\w8\e"
+		
+		"\1Huh.\w8 It worked.\w8 \0\s[4]Ooh,\w4 I wonder what all new things are in store for us!\w8 And %(user),\w4 too!\w8\e"
+	}
+}
+
+
+
+//**** Ghost Creation and Updating ******************************************************
+//I just like it when they can recognise they're making a .nar of themselves.
+
+//---- OnUpdatedataCreating -----------------------------------------------------------
+//This will begin the creation of the updates2.dau file.
+OnUpdatedataCreating
+{
+	"\1\s[14]We gotta make our own updates here??\w8 \0\s[0]\i[1]\i[28]Gotta help out %(user)!\w8 \1\s[15]\n\n[half]Ughhh.\w8\e"
+	
+	"\0\s[4]All rightie!\w8 One update file coming right up!\w8\e"
+}
+
+//---- OnUpdatedataCreated -------------------------------------------------------------
+//After the updates2.dau file has been successfully created.
+OnUpdatedataCreated
+{
+	"\0And success!\w8 \1\s[10]\i[2]Hope you took out all the bugs,\w4 %(user).\w8\e"
+	
+	"\1\s[10]\i[14]Make sure you didn't leave any bugs in there,\w4 %(user).\w8\s[13] 'Cause we sure as %(hell) can't take 'em out for you.\w8\e"
+}
+
+//---- OnNarCreating ------------------------------------------------------------------
+//%(reference0) here is the name of the ghost as specified in Installl.txt
+OnNarCreating
+{
+	if reference0 == "Camp Camp"
+	{
+		"\0\s[0]Where we going,\w4 %(user)?\w8 \1\s[10]You better not be sending us anywhere lame.\w8\e"
+	}
+	//elseif reference0 == ""
+	else //all others
+	{
+		"\0\s[4]We're making a new buddy!\w8 \1\s[12]If you're replacing us,\w4\s[14] does that mean we get to go home?\w8\e"
+		
+		"\1\s[10]\i[14]Replacing us already?\w8 \0\s[0]\i[1]\i[12]\i[25]No,\w4 Max.\w8\s[4] It's a new friend!\w8\e"
+	}
+}
+
+//---- OnNarCreated -------------------------------------------------------------------
+//%(reference0) here will be the filename of the nar you just created.
+OnNarCreated
+{
+	if reference0 == "Camp Camp"
+	{
+		"\0\s[0]All finished!\w8 \1\s[10]Don't force us into any weird disasters.\w8\e"
+	}
+	//elseif reference0 == ""
+	else //all others
+	{
+		"\0\s[0]'%(reference0)'!\w8 \i[9]Sounds like an ideal camper to me!\w8 \1\s[10]\i[2]Yeah I somehow doubt that.\w8\e"
+		
+		"\1\s[10]\i[14]'%(reference0)',\w4 huh?\w8 \0\s[4]When do we get to meet them?\w8 Is the bus dropping them off soon?\w8 \1\s[10]\i[1]\n\n[half]I think that's also one of our jobs here...\w8 \0\s[0]\i[28]\i[11]\n\n[half]Then what are you waiting for,\w4 %(user)??\w8 Bring 'em in!\w8\e"
+	}
+}
+
+
+
+//Don't mind all this stuff for now, this is just inter-ghost recognition stuff. I like it so I put it in here, but it's completely optional and not needed at all.
+/*
+//---- OnGhostCalling ---------------------------------------------------------------
+//when you call another ghost. It activates immediately, so write dialogue accordingly.
+OnGhostCalling
+{
+	case reference0
+	{
+		when ""
+		{
+			""
+		}
+		when ""
+		{
+			""
+		}
+		others
+		{
+			"Calling %(reference0)...\w8\e"
+		}
+	}
+}
+
+//when you change another ghost. activates after they've finished swapping.
+//reference0 = ghost before switch; reference1 = ghost switched to
+//reference4 = name of previous ghost; reference5 = name of switched to ghost
+OnOtherGhostChanged
+{
+	if reference0 == ""
+	{
+		if reference1 == ""
+		{
+			"Goodbye, ghost0.\w8 Hello, ghost1!\w8\e"
+		}
+		//elseif reference1 == ""
+		else //others
+		{
+			"Goodbye, ghost0.\w8 Hello, %(reference1)!\w8\e"
+		}
+	}
+	//elseif reference0 == ""
+	else //others
+	{
+		"Goodbye, %(reference0).\w8 Hello, %(reference1)!\w8\e"
+	}
+}
+
+//when you close another ghost. Only activates after the other ghost is gone.
+OnOtherGhostClosed
+{
+	case reference0
+	{
+		when ""
+		{
+			""
+		}
+		when ""
+		{
+			""
+		}
+		others
+		{
+			"So long, %(reference0).\w8\e"
+		}
+	}
+}
+*/

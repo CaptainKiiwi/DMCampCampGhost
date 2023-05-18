@@ -1,0 +1,258 @@
+﻿//---------------------------Mouse Functions--------------------------
+//As you've probably guessed, this .dic file has to do with mouse functions. This includes the petting feature and what happens when you double click your ghost.
+
+
+
+//--OnMouseMove
+//---- reference3 determines the character in question
+OnMouseMove
+{
+	if reference3 == 0 // the main character
+	{
+		MouseMoveSakura
+	}
+	else // the side character.
+	{
+		MouseMoveKero
+	}
+}
+
+//\![move,--base=1,--x=-80,--time=2000]
+
+// --base=1 moves the character in reference to character 1, the kero. if you want it the other way around, change base to 0 and make sure that the move command happens while a \1 tag is active.
+//if you want them to just move relative to themselves, use --base=me
+
+// --x=-80 this will take the character 80 to pixels left of the reference above.  Left is negative numbers, right is positive numbers.
+
+// --time=2000 the time it will take to move, in milliseconds. they may dart across the screen; no matter how far apart they are, it will always take the amount of time specified here
+
+
+
+//--MouseMoveSakura
+//if you move the mouse over the right areas, the stroke count will go up.
+//if the stroke count is above a certain number, the petting dialogue will kick in. If the mouse isn't over the ghost, it'll zero out the stroke value.
+MouseMoveSakura
+{
+	if reference4 != "" //ignore
+	{
+		stroke++
+		if stroke >= 40
+		{
+			stroke = 0
+			if reference4 == "Head"
+			{
+				if friendlevel == 3
+				{
+					"\0"
+					--
+					"\s[0]\i[12]Thank you %(user).\w8\i[1] I wish I could give you a pat back.\w8\s[0]\i[11]\i[28] Or even better -\w8\s[4] a hug!\e"
+					
+					"\s[0]\i[12]\i[30]\i[8]Hmm\w8.\w8.\w8.\w8\1\s[10]\i[1]\i[14]\i[26]Sheesh.\w8 What are you,\w4 a dog?\e"
+					
+					"\s[0]\i[9]Thanks %(user)!\e"
+					
+					"\s[0]Thank you %(user)\w8.\w8.\w8.\w8\n\i[9]\i[12]You're really kind.\e"
+					
+					"\s[0]\i[9]\i[11]\i[28]Haha!\w8 That tickles!\e"
+					
+					"\s[4]Thank you,\w4 %(user)!\w8\s[0]\i[12] You've been so kind to me.\w8\s[0]\i[9]\i[26]\i[30] I'm really happy we're friends!\e"
+					
+					"\s[0]\i[9]\i[12]\i[21]\i[30]\i[28]Haha-!\e"
+					
+					"\s[4]You're too sweet,\w4 %(user)!\e"
+					
+					"\s[5]Ah-!\w8\n\s[0]\i[28]\i[12]\i[8]I don't think I'll ever get used to this\w8.\w8.\w8.\s[0]\i[30]\i[12]but that's okay,\w4 right?\e"
+					
+					"\s[0]\i[12]I wish we could have you back at camp,\w4 %(user).\w8\n\s[0]\i[9]\i[28]I think the kids would like you!\e"
+				}
+				elseif friendlevel == 2
+				{
+					"\0"
+					--
+					"\s[0]\i[9]Thank you,\w4 %(user)!\w8\s[0]\i[28] Nothing like a nice pat to\i[11]\i[9]\i[23] pick up your spirits!\e"
+					
+					"\s[5]Ah-!\w8\e"
+					
+					"\s[5]Oh-\w8\nOh!\w8\n\s[0]\i[28]\i[9]\i[12]Thanks,\w4 %(user)!\w8\s[0]\i[12]\i[4]\w8 \n(I still need to get used to that\w8.\w8.\w8.)\e"
+					
+					"\s[0]\i[9]\i[30]\i[12]Haha,\w4 thanks!\e"
+					
+					"\s[0]\i[30]\i[12]Thanks,\w4 %(user).\w8\i[4] Not a lot of people treat me this nicely.\w8\i[9] It means a lot.\e"
+					
+					"\s[0]\i[9]Hmm.\w8\1\s[10]\i[1]\i[14]I can't imagine why you'd wanna keep touching that spiky mess.\w8 \0\s[0]\i[1]\i[28]\n\n[half]Actually,\w4 Gwen gave me this new shampoo!\i[9]\i[18]\i[21]\w8 My hair is pretty fluffy now.\e"
+					
+					"\s[2]!\w8\n\s[0]\i[12]\i[28]\i[9]\i[18]Sorry!\w8 You caught me off guard!\w8\s[0]\i[12]\i[18] But that was still really nice.\e"
+					
+					"\s[0]\i[12]\i[4]\i[30]I-\w8\s[0]\i[12]\i[30]\nThank you.\e"
+					
+					"\s[5]Ah!\w8 %(user)!\w8\s[0]\i[30]\i[12] Give me some sort of warning!\e"
+					
+					"\s[0]\i[30]\i[8]\i[11]\w8.\w8.\w8.\e"
+				}
+				else //1 and 0
+				{
+					"\0"
+					--
+					"\s[2]Wha-!\w8\n\s[0]\i[29]Oh!\w8 Was that you %(user)?\w8\s[0]\i[28]\i[21]\i[12]\i[9] You really spooked me!\w8 Haha!\e"
+					
+					"\s[2]Oh-!\w8\n\s[0]\i[29]Sorry!\w8 I'm not used to this!\e"
+					
+					"\s[5]Uh-\w8\n%(user)?\w8 What are you doing...?\e"
+					
+					"\s[0]\i[29]Are you giving me a pat,\w4 %(user)?\w8\s[0]\i[25] Uh-\w8\s[0]\i[28]\i[21]\i[12]\i[9]\nThank you!\w8 It's nice?\e"
+					
+					"\s[2]!\w8\s[0]\i[29]\i[12]\nSorry -\w8 I didn't mean to flinch.\w8\s[0]\i[12]\1\s[10]\i[1]\i[14]\i[26]Why are you so jumpy from this?\w8\0\s[1]\n\n[half]Well...\w8being touched out of nowhere isn't always good news for me.\w8\1\s[10]\i[2]\n\n[half]Oh yeah.\w8 The whole\w4 'getting hit by a bus'\w4 schtick.\w8\i[23] Heh.\e"
+					
+					"\s[5]I uh-\w8\nThank you???\e"
+					
+					"\s[5]Ah-!\w8\e"
+					
+					"\s[2]Nn-!\n\w8\s[0]\i[28]\i[21]\i[12]\i[9]Sorry!\w8 Sorry...\w8 \nI know you mean well.\e"
+					
+					"\s[0]Thank you!\w8\i[9] That's really nice of you,\w4 %(user).\e"
+					
+					"\s[0]\i[12]Haha.\w8\n\s[0]\i[1]\i[28]Max,\w4 remember when I used to ruffle your hair like that?\w8\1\s[14]Used to?\w8\s[10]\i[27] I wish.\w8\s[10]\i[8] Dont touch my hair.\w8\s[11] That goes for both of you!\e"
+				}
+			}
+		}
+	}
+	else
+	{
+		stroke = 0
+	}
+}
+
+
+//---- MouseMoveKero -----------------------------------------------------------------
+//MouseMoveKero is exactly like the above, except set up for your second character.
+MouseMoveKero
+{
+	if reference4 != ""
+	{
+		stroke++
+		if stroke >= 40
+		{
+			stroke = 0
+			if reference4 == "Point"
+			{
+				if friendlevel == 3
+				{
+					"\1"
+					--
+					"\i[12]...\w8\e"
+					
+					"\i[4]Heh.\w8\e"
+					
+					"\i[4]\i[7]\i[13]...\0\s[0]Psst.\w8\i[0] You should consider yourself lucky,\w4 %(user)!\w8\s[0]\i[12]\i[21] Max doesn't usually let people touch him.\w8\e"
+					
+					"\s[15]...\w8\e"
+					
+					"\i[22]\i[12]...\w8\e"
+					
+					"\s[12]Uuh-!\w8\s[15]\n...Thanks.\w8\e"
+					
+					"\s[16]...It's\w8...\nNot a trick?\w8\e"
+					
+					"\i[2]\i[15]Here we go again.\w8\e"
+					
+					"\s[15}%(Capitalise(damn))-\w4\nYou're so weird,\w4 %(user).\w8\e"
+					
+					"\i[8]Ok fine.\w8 I admit it.\w8\s[15] This is kinda nice.\w8\e"
+				}
+				elseif friendlevel == 2
+				{
+					"\1"
+					--
+					"\i[2]I'm just tolerating this.\w8\e"
+					
+					"\s[14]Why do you want to touch me,\w4 anyway??\w8\e"
+					
+					"\i[8]\i[16]Hmm.\w8 \0Aww,\w4 you look relaxed,\w4 Max.\w8 \1\s[15]\n\n[half]Shut your %(fuck)ing mouth,\w4 Campman.\w8\e"
+					
+					"\i[4]\i[12]What's the catch?\w8\e"
+					
+					"\i[4]\i[12]I don't get it...\w8\e"
+					
+					"\s[15]I'm.\w8.\w8.\w8\n\s[16]Still not okay with this.\w8 Stop.\w8\e"
+					
+					"\s[12]I-\w8\n\s[14]What do you get out of this??\w8\e"
+					
+					"\i[12]Stop it\w8.\w8.\w8.\w8\e"
+					
+					"\i[1]...\0\s[0]\i[1]\i[12]Max,\w4 don't ignore %(them).\1\s[10]\i[9]\nI'll do whatever the %(hell) I want.\w8\e"
+					
+					"\i[3]\i[7]\i[11]!\n\s[16]\w8.\w8.\w8.\w8\e"
+					//I swear I'm not trying to make Max tsundere lol
+					//He kinda is sometimes ;p
+				}
+				else //1 and 0
+				{
+					"\1\![move,--base=me,--x=-80,--time=100]"
+					"\1\![move,--base=me,--x=-100,--time=200]"
+					"\1\![move,--base=me,--x=-50,--time=80]"
+					--
+					"\s[12]Hey.\w8\s[16] Woah.\w8\e"
+					
+					"\i[8]Nuh-uh.\w8\e"
+					
+					"\s[16]Hands to yourself over there.\w8\e"
+					
+					"\s[11]Don't %(fuck)ing touch me.\w8\e"
+					
+					"\s[16]Quit it.\w8\e"
+					
+					"\i[24]This %(shit) isn't funny.\w8\e"
+					
+					"%(user),\w4 you're being a real %(bitch).\w8 Stop.\w8\e"
+					
+					"\i[18]Touch me one more time and I'll get Nikki to bite off your cursor.\w8\e"
+					
+					"\s[11]Who gave you permission to touch me?!\w8\e"
+					
+					"\i[7]\i[3]\w4.\w4.\w4.\w8\e"
+				}
+			}
+		}
+	}
+	else
+	{
+		stroke = 0
+	}
+}
+
+
+//---- OnMouseDoubleClick -------------------------------------------------------
+//---- like with the OnMouseMove function above, this determines who the user is clicking on.
+//reference5 checks which button is being used for the click
+OnMouseDoubleClick
+{
+	if reference5 == 0
+	{
+	 	if reference3 == 0 //if the character is 0, aka your main character
+		{
+			MouseDoubleClickSakura
+		}
+		else
+		{
+			MouseDoubleClickKero
+		}
+	}
+}
+
+//---- MouseDoubleClickSakura ----------------------------------------------------------
+//if the user doubleclicks somewhere else on the character, they will open their menu as detailed in menu.dic.
+MouseDoubleClickSakura
+{
+	OpenSakuraMenu
+}
+
+
+//---- MouseDoubleClickKero -----------------------------------------------------------
+//This is just the same as MouseDoubleClickSakura above, except for your secondary character.
+MouseDoubleClickKero
+{
+	OpenKeroMenu
+}
+
+
+//if you want any other mouse functions, they'd go here!

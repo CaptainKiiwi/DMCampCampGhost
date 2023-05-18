@@ -1,0 +1,339 @@
+﻿//---------------------------Envelopes--------------------------
+//envelopes!!
+
+fuck // %(fuck)
+{
+	if bleeped == 1 //off
+	{
+		"fuck"
+	}
+	else //0; on
+	{
+		"%(sym1)%(sym1)%(sym1)%(sym1)"
+		"fudge"
+		"****"
+	}
+}
+
+bitch // %(bitch)
+{
+	if bleeped == 1 //off
+	{
+		"bitch"
+		"fucker"
+		"motherfucker"
+		"mother fucker"
+		"cunt"
+		"cock"
+		"ass"
+		"bastard"
+		"dick"
+		"prick"
+	}
+	else //0; on
+	{
+		"%(sym1)%(sym1)%(sym1)%(sym1)%(sym1)"
+		"%(sym1)%(sym1)%(sym1)%(sym1)%(sym1)%(sym1)"
+		"%(sym1)%(sym1)%(sym1)%(sym1)"
+		"%(sym1)%(sym1)%(sym1)"
+		"%(sym1)%(sym1)%(sym1)%(sym1)%(sym1)%(sym1)%(sym1)"
+		"%(sym1)%(sym1)%(sym1)%(sym1)"
+		"%(sym1)%(sym1)%(sym1)%(sym1)%(sym1)"
+		"mother father"
+		"rooster"
+		"butt"
+		"jerk"
+		"*****"
+		"******"
+		"****"
+		"***"
+		"*******"
+		"****"
+		"*****"
+	}
+}
+
+asshole // %(asshole)
+{
+	if bleeped == 1
+	{
+		"asshole"
+	}
+	else
+	{
+		"%(sym1)%(sym1)%(sym1)%(sym1)%(sym1)%(sym1)%(sym1)"
+		"a-hole"
+		"*******"
+	}
+}
+
+hell // %(hell)
+{
+	if bleeped == 1 //off
+	{
+		"hell"
+	}
+	else //0; on
+	{
+		"%(sym1)%(sym1)%(sym1)%(sym1)"
+		"heck"
+		"****"
+	}
+}
+
+damn // %(damn)
+{
+	if bleeped == 1 //off
+	{
+		"damn"
+		"damnit"
+		"damn it"
+	}
+	else //0; off
+	{
+		"%(sym1)%(sym1)%(sym1)%(sym1)"
+		"%(sym1)%(sym1)%(sym1)%(sym1)%(sym1)%(sym1)"
+		"darn"
+		"darn it"
+		"dang"
+		"dangit"
+		"****"
+		"******"
+	}
+}
+
+shit // %(shit)
+{
+	if bleeped == 1 //off
+	{
+		"shit"
+		"crap"
+	}
+	else //0; on
+	{
+		"%(sym1)%(sym1)%(sym1)%(sym1)"
+		"%(sym1)%(sym1)%(sym1)%(sym1)%(sym1)"
+		"%(sym1)%(sym1)%(sym1)%(sym1)"
+		"poop"
+		"****"
+		"*****"
+		"****"
+	}
+}
+
+bullshit // %(bullshit)
+{
+	if bleeped == 1 //off
+	{
+		"bullshit"
+	}
+	else //0; on
+	{
+		"%(sym1)%(sym1)%(sym1)%(sym1)%(sym1)%(sym1)%(sym1)%(sym1)"
+		"********"
+		"bull"
+	}
+}
+
+//randomising
+sym1 // %(sym1)
+{
+	"#"
+	"!"
+	"?"
+	"%"
+	"&"
+	"@"
+}
+
+
+//scary stories!
+Davidscares // %(Davidscares)
+{
+	"doing the dishes"
+	"a dog that got tangled up in a sheet"
+	"a lone piece of ham on a plate"
+	"a knife to the hand"
+}
+
+Gwenscares // %(Gwenscares)
+{
+	"college debt"
+	"paying taxes"
+	"tax evasion"
+	"majoring in any Art program"
+	"down payments for houses"
+	"renting an apartment"
+	"checking her bank account"
+}
+
+
+//As you can see, we stated a word, opened some brackets, wrote some text, and closed the brackets. Now when you write ghost dialogue, you can write %(exampleenvelope) and your ghost will randomly display any of the three bits of text within the brackets! You can go ahead and test this yourself to see how it works, and I'll include some sample dialogue with this in aitalk.dic.
+
+
+//Because these are basically their own functions, you can do other things with them as well as display dialogue. You can add if/else checks, run other functions, have pools of alternate dialogue... the possibilities are really endless.
+
+//One particularly useful thing you can do is add value changes to an envelope, if your dialogue is in a place where it's not easy to add the change directly. For example...
+
+//OnRankUp
+//{
+	//affection ++ //for one point; if you wanted to raise more, then you'd use "affection += #" (replace # with a number value)
+//}
+
+//and then place it into a dialogue like so --
+
+//"\![raise,OnRankUp]You ranked up!\w8 Thanks,\w4 %(user)!\w8\e"
+
+//or something like that. the important bit here being the "\![raise,OnRankUp]" code.
+//apparently, placing variable changes inside envelopes that then go into aitalk will call them regardless of if the actual dialogue it was placed in was called or not, making your variables go out of wack. this method can be called within aitalk because it's its own function that gets called and not a dialogue envelope. at least, I assume as such.
+
+
+//Now, this next envelope is unique. I've called it a double envelope at times, but this is actually technically an array. Note that it has a word, a comma, then another word. This is essentially a list being stored in this envelope. You can call one of the values by using brackets around the number of the list entry. So, the first value (the Korean word) would be %(lessonkor[0]) since all arrays start at 0. The second value (the definition) would be %(lessonkor[1]). If you have a longer array, like "word,word,word,word,word", you can keep calling values by changing the numbers, like %(lessonkor[5]) or %(lessonkor[10]). Arrays can be very powerful and useful for storing a lot of information in a condensed space, but I must level with you, I'm not very good at arrays or figuring out how to use them. :B They can be VERY useful though, if you can wrap your head around how they work. An example of pulling information from this array can be seen in aitalk.dic.
+
+camperbibble
+{
+	"Gwen,writing her cringy slash fiction,she isn't too overwhelemed without me!"
+	"Preston,writing out another poor excuse of a script for yet another play,he doesn't set the stage on fire this time."
+	"Nerris,trying to be a sorcereress.\w8 Nerd.,she doesn't try to cast magic missle on a raccoon again..."
+	"Harrison,traumitizing innocent bystanders with his magic.,he stays safe when trying the 'saw someone in half' trick."
+	"Nerf,beating the %(shit) out of other kids.,he comes to his senses soon.\w8 He's a smart kid -\w8 just a little troubled."
+	"Space Kid,being obnoxious -\w8 shoving his toy rocket into people's faces.,he doesn't hurt himself trying to launch himself out of the atmosphere again."
+	"Ered,leaning on a wall and getting away with not working.\w8 Perks of being cool I guess.,she isn't leading another revolution.\w8 Last time was such a hassle."
+	"Dolph,painting.,he is doing okay without my advice.\w8 He loves to show me his art."
+	"Neil,being a nerd and building his new computer.,he is reponsible with that technology.\w8\1\s[10]\i[1]\i[23]\n\n[half]Oh yeah -\w4 you were hypnotized by his AI chat bot for HOURS last time."
+	"Nikki,talking to wolves.\w8 Or bears.\w8 Or anything really.,she doesn't catch rabies again."
+	"QuarterMaster,eating doll heads or something.\w8 He's a %(fucking) weirdo.,he's using edible ingredients today.\w8 I know we have a limited budget but...."
+	"Cameron Campbell,being a crook.\w8 The %(shit)head.\w8,he doesn't think less of us after all that's happened.\w8 He was my hero."
+}
+
+
+
+//---------------------------backend stuff
+
+//pronouns
+they
+{
+	if presuffix == "masculine"; {"he"}
+	elseif presuffix == "feminine"; {"she"}
+	else //undefined
+	{"they"}
+}
+
+them
+{
+	if presuffix == "masculine"; {"him"}
+	elseif presuffix == "feminine"; {"her"}
+	else //undefined
+	{"them"}
+}
+
+their
+{
+	if presuffix == "masculine"; {"his"}
+	elseif presuffix == "feminine"; {"her"}
+	else //undefined
+	{"their"}
+}
+
+
+//friend level
+friendlevel
+{
+	if Maxfeels > 150
+	{
+		if Davidfeels < 50; { 1 }
+		elseif Davidfeels > 100 && Davidfeels < 150; { 2 }
+		elseif Davidfeels > 50 && Davidfeels < 100; { 2 }
+		else //Davidfeels > 150
+		{ 3 }
+	}
+	elseif Maxfeels > 100 && Maxfeels < 150
+	{
+		if Davidfeels < 50; { 0 }
+		elseif Davidfeels > 50 && Davidfeels < 100; { 1 }
+		elseif Davidfeels > 150; { 2 }
+		else //Davidfeels > 100 && Davidfeels < 150
+		{ 2 }
+	}
+	elseif Maxfeels > 50 && Maxfeels < 100
+	{
+		if Davidfeels < 50; { 0 }
+		elseif Davidfeels > 100 && Davidfeels < 150; { 1 }
+		elseif Davidfeels > 150; { 1 }
+		else //Davidfeels > 50 && Davidfeels < 100
+		{ 1 }
+	}
+	else //both < 50
+	{
+		0
+	}
+}
+
+
+//--timeslot
+timeslot
+{
+	if hour >= 5 && hour <= 8
+	{	"earlymorning"	}
+	elseif hour >= 9 && hour <= 11
+	{	"morning"	}
+	elseif hour >= 12 && hour <= 14
+	{	"lunch"	}
+	elseif hour >= 15 && hour <= 17
+	{	"afternoon"	}
+	elseif hour >= 18 && hour <= 20
+	{	"evening"	}
+	elseif hour >= 21 && hour <= 24
+	{ "night"	}
+	else
+	{ "latenight" }
+}
+
+//--dayslot
+dayslot
+{
+	"%(month)month %(day)day"
+}
+
+//--GetWeekDay
+GetWeekDay
+{
+	if weekday == 0; {"Sun"}
+	elseif weekday == 1; {"Mon"}
+	elseif weekday == 2; {"Tue"}
+	elseif weekday == 3; {"Wed"}
+	elseif weekday == 4; {"Thu"}
+	elseif weekday == 5; {"Fri"}
+	else; {"Sat"}
+}
+
+//I think SSP comes with this included now as just AP??
+GetAP
+{
+	if hour >= 0 && hour <= 11; {"AM"}
+	else; {"PM"}
+}
+
+//--nowhour and nowmin
+nowhour
+{
+	if hour12 == 0; "1"
+	else; "%(hour12)"
+}
+
+nowmin
+{
+	if minute >= 0 && minute <=9; "0%(minute)"
+	else; "%(minute)"
+}
+
+
+//%(Capitalise(envelope))
+Capitalise
+{
+	_word = _argv[0]
+	_buffer = SUBSTR(_word,0,1)
+	_word = ERASE(_word,0,1)
+	_word = INSERT(_word,0,TOUPPER(_buffer))
+	_word
+}
