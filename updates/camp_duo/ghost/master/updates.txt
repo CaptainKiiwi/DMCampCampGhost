@@ -5,9 +5,9 @@ file,ghost/master/camp_bootend.dic45d0fc8c5288974969372123fc2854casize=26424d
 file,ghost/master/camp_commu.dic26eb1a31c75bdb1d45b809f193f852dfsize=3233date=2023-05-18T06:23:22
 file,ghost/master/camp_etc.dicbb3c46074643f4d0be26ff8565f1f5a2size=18822date=2023-05-17T21:34:33
 file,ghost/master/camp_menu.dica2946bd09d03b062988bbd874cc644f7size=30425date=2023-05-18T15:03:05
-file,ghost/master/camp_mouse.dic1701d90ed0331fb54e416badd836c4e4size=8631date=2023-05-18T06:23:22
+file,ghost/master/camp_mouse.dic29c2c78011f190af887ef314ff293c68size=8643date=2023-05-19T12:14:06
 file,ghost/master/camp_nameteach.dic605634a871fbeb0155b18af5042e93d3size=5727date=2023-05-18T15:03:05
-file,ghost/master/camp_string.dic463c16f05ca80388562b31801f3faa56size=6234date=2023-05-17T06:22:00
+file,ghost/master/camp_string.dic4c4ac12b43acc8760b012e27c406625fsize=6266date=2023-05-19T12:17:54
 file,ghost/master/camp_word.dicc1e99ed3ca472d20bcb4531269a02c7bsize=8635date=2023-05-18T15:03:05
 file,ghost/master/descript.txtd220aef690d1bc339038e0b562588c77size=2645date=2023-05-18T06:23:23
 file,ghost/master/gomi.dll51fe9597398db01e684a0f9d52c63242size=13312date=2004-06-01T21:00:04
@@ -20,7 +20,7 @@ file,ghost/master/yaya_base/compatible.dic90cdd7e2afcacb1cc74e455802253585size
 file,ghost/master/yaya_base/config.dice0b14f61285f623a25159fc076077162size=2652date=2023-05-13T10:22:42
 file,ghost/master/yaya_base/optional.dic6d145faf699b791eee13a56b451011c6size=10304date=2023-05-13T10:22:42
 file,ghost/master/yaya_base/shiori3.dic95ed336565542f24f1d698787a017302size=54211date=2023-05-13T10:22:42
-file,install.txtf2437ac6aff2f20c74cc6b0ea0634798size=925date=2023-05-16T11:07:39
+file,install.txt87686efbe25421892f6fa925359ce6c4size=919date=2023-05-19T12:17:54
 file,readme.txt94a89d5b1cbb0c4162950f15f71c32fcsize=1243date=2023-05-18T15:03:05
 file,shell/master/descript.txt231374c2a6e244a3ef0ae2e93fabe108size=5486date=2023-05-14T12:45:17
 file,shell/master/menu_background.png8eb9ba7c1228fc1ad6a591af041eb906size=2423date=2023-05-14T12:46:52

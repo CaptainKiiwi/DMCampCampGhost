@@ -137,7 +137,7 @@ MouseMoveKero
 			{
 				if friendlevel == 3
 				{
-					"\1"
+					"\1\s[10]"
 					--
 					"\i[12]...\w8\e"
 					
@@ -161,7 +161,7 @@ MouseMoveKero
 				}
 				elseif friendlevel == 2
 				{
-					"\1"
+					"\1\s[10]"
 					--
 					"\i[2]I'm just tolerating this.\w8\e"
 					
