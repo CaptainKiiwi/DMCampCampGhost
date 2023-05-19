@@ -155,7 +155,7 @@ MouseMoveKero
 					
 					"\i[2]\i[15]Here we go again.\w8\e"
 					
-					"\s[15}%(Capitalise(damn))-\w4\nYou're so weird,\w4 %(user).\w8\e"
+					"\s[15]%(Capitalise(damn))-\w4\nYou're so weird,\w4 %(user).\w8\e"
 					
 					"\i[8]Ok fine.\w8 I admit it.\w8\s[15] This is kinda nice.\w8\e"
 				}
